@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -30,7 +29,7 @@ public class ContactController {
      * Get all contacts
      */
     @GetMapping()
-    public List<Contact> getContacts() {
+    public List<Contact> getAllContacts() {
         logger.info("GET ALL CONTACTS");
         return (this.contactRepository.findAll());
     }
