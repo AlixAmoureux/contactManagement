@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name="CONTACT")
 public class Contact implements Serializable {
@@ -29,17 +31,18 @@ public class Contact implements Serializable {
     @Column(name="address", nullable = false)
     private String address;
 
-    @Column(name="firstName", nullable = false)
+    @Column(name="first_name", nullable = false)
     private String firstName;
 
-    @Column(name="lastName", nullable = false)
+    @Column(name="last_name", nullable = false)
     private String lastName;
 
     @Column(name="is_freelance", nullable = true)
     private Boolean isFreelance;
 
-/*     @OneToMany(mappedBy = "contact", cascade = CascadeType.ALL)
-    private List<Company> company; */
+    @OneToMany(mappedBy = "contact", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<Company> contactCompanies;
 
     public Integer getId() {
         return Id;
@@ -81,11 +84,11 @@ public class Contact implements Serializable {
         this.isFreelance = isFreelance;
     }
 
-/*     public List<Company> getCompany() {
-        return company;
+    public List<Company> getContactCompanies() {
+        return contactCompanies;
     }
 
-    public void setCompany(List<Company> company) {
-        this.company = company;
-    } */
+    public void setContactCompanies(List<Company> contactCompanies) {
+        this.contactCompanies = contactCompanies;
+    }
 }

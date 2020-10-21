@@ -24,8 +24,15 @@ public class HeadOfficeController {
     @Autowired
     private HeadOfficeRepository headOfficeRepository;
 
-     @PostMapping
-    public HeadOffice setHeadOffice(@PathVariable("companyId") Integer companyId, @RequestBody HeadOffice headOffice)
+    /**
+     * Create head office for the company
+     * 
+     * @param companyId : id of the company
+     * @param headOffice : head office entity
+     * @return : head office entity created
+     */
+    @PostMapping
+    public HeadOffice createHeadOffice(@PathVariable("companyId") Integer companyId, @RequestBody HeadOffice headOffice)
     {
         Company company = this.companyRepository.findById(companyId).get();
         headOffice.setHeadOfficeCompany(company);

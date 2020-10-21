@@ -2,12 +2,10 @@ package com.contactsmanagement.contacts.Entity;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,6 +14,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -42,6 +42,11 @@ public class Company implements Serializable {
     @OneToOne(mappedBy = "headOfficeCompany")
     @JsonManagedReference
     private HeadOffice headOffice;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="contact_id")
+    @JsonBackReference
+    private Contact contact;
 
     @Column(name = "tva", nullable = true)
     private String tva;
@@ -84,5 +89,13 @@ public class Company implements Serializable {
 
     public void setHeadOffice(HeadOffice headOffice) {
         this.headOffice = headOffice;
+    }
+
+    public Contact getContact() {
+        return contact;
+    }
+
+    public void setContact(Contact contact) {
+        this.contact = contact;
     }
 }

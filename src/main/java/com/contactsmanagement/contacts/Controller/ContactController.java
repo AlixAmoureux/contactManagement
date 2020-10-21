@@ -1,8 +1,11 @@
 package com.contactsmanagement.contacts.Controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.contactsmanagement.contacts.Entity.Company;
 import com.contactsmanagement.contacts.Entity.Contact;
+import com.contactsmanagement.contacts.Repository.CompanyRepository;
 import com.contactsmanagement.contacts.Repository.ContactRepository;
 
 import org.slf4j.Logger;
@@ -18,32 +21,55 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "/contact")
+@RequestMapping
 public class ContactController {
     private static final Logger logger = LoggerFactory.getLogger(ContactController.class);
 
     @Autowired
     private ContactRepository contactRepository;
 
+    @Autowired
+    private CompanyRepository companyRepository;
+
     /**
      * Get all contacts
+     * @return : the contacts found
      */
-    @GetMapping()
+    @GetMapping(value = "/contact")
     public List<Contact> getAllContacts() {
         logger.info("GET ALL CONTACTS");
         return (this.contactRepository.findAll());
     }
 
     /**
-     * Create a contact
+     * Create a contact and assign it to a company
      * 
+     * @param id      : id of the company
      * @param contact : contact to create
-     * @return : contact created
+     * @return : contact entity created
      */
-    @PostMapping()
-    public Contact createContact(@RequestBody Contact contact) {
+    @PostMapping(value = "/contact/company/{id}")
+    public Company createContact(@PathVariable Integer id, @RequestBody Contact contact) {
         logger.info("CREATE CONTACT");
-        return (this.contactRepository.save(contact));
+        Company company = this.companyRepository.findById(id).get();
+        company.setContact(contact);
+        return this.companyRepository.save(company);
+    }
+
+    /**
+     * Add an existing company to an existing contact
+     * 
+     * @param contactId : id of the contact
+     * @param companyId : id of the company
+     * @return : contact updated
+     */
+    @PostMapping(value = "/contact/{contactId}/company/{companyId}")
+    public Company addACompanyToContact(@PathVariable Integer contactId, @PathVariable Integer companyId) {
+        logger.info("addACompanyToContact");
+        Contact contact = this.contactRepository.findById(contactId).get();
+        Company company = this.companyRepository.findById(companyId).get();
+        company.setContact(contact);
+        return (this.companyRepository.save(company));
     }
 
     /**
@@ -52,7 +78,7 @@ public class ContactController {
      * @param contact : contact to update (DO NOT FORGET THE ID in the path !)
      * @return : contact updated
      */
-    @PutMapping("{id}")
+    @PutMapping("/contact/{id}")
     public Contact updateContact(@PathVariable Integer id, @RequestBody Contact contact) {
         contact.setId(id);
         return (this.contactRepository.save(contact));
@@ -63,7 +89,7 @@ public class ContactController {
      * 
      * @param id : id od the contact to delete
      */
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/contact/{id}")
     public void deleteContact(@PathVariable Integer id) {
         this.contactRepository.deleteById(id);
     }
@@ -71,7 +97,7 @@ public class ContactController {
     /**
      * Delete all the contacts
      */
-    @DeleteMapping()
+    @DeleteMapping("/contact")
     public void deleteAllContacts() {
         this.contactRepository.deleteAll();
     }

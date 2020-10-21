@@ -1,7 +1,6 @@
 package com.contactsmanagement.contacts.Controller;
 
 import java.util.List;
-import java.util.Set;
 
 import com.contactsmanagement.contacts.Entity.Agency;
 import com.contactsmanagement.contacts.Entity.Company;
@@ -32,10 +31,9 @@ public class AgencyController {
     private CompanyRepository companyRepository;
 
     /**
-     * Get all agencies with a specific company id
+     * Get all agencies
      * 
-     * @param id
-     * @return
+     * @return : list of agencies found
      */
     @GetMapping("/all")
     public List<Agency> getAllAgenciesForAllCompanies() {
@@ -46,8 +44,8 @@ public class AgencyController {
     /**
      * Get all agencies with a specific company id
      * 
-     * @param id
-     * @return
+     * @param id : id of the company
+     * @return : list of agencies found
      */
     @GetMapping
     public List<Agency> getAllAgencies(@PathVariable("companyId") Integer id) {
@@ -55,6 +53,13 @@ public class AgencyController {
         return (this.agencyRepository.findAllAgenciesForACompany(id));
     }
 
+    /**
+     * Create an agency for a company
+     * 
+     * @param companyId : id of the company
+     * @param agency : agency to create
+     * @return : agency entity created
+     */
     @PostMapping
     public Agency createAgency(@PathVariable("companyId") Integer companyId, @RequestBody Agency agency) {
         Company company = this.companyRepository.findById(companyId).get();
@@ -62,12 +67,22 @@ public class AgencyController {
         return this.agencyRepository.save(agency);
     }
 
+    /**
+     * Update an agency
+     * 
+     * @param agencyId : id of the agency
+     * @param agency : the agency entity
+     * @return : the agency entity updated
+     */
     @PutMapping("/{agencyId}")
     public Agency updateAgency(@PathVariable("agencyId") Integer agencyId, @RequestBody Agency agency) {
         agency.setId(agencyId);
         return (this.agencyRepository.save(agency));
     }
 
+    /**
+     * Delete all the agencies
+     */
     @DeleteMapping("/{agencyId}")
     public void deleteAllAgencies(@PathVariable("agencyId") Integer agencyId) {
         this.agencyRepository.deleteById(agencyId);
