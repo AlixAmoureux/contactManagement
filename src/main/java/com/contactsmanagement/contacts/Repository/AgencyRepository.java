@@ -13,6 +13,6 @@ public interface AgencyRepository extends CrudRepository<Agency, Integer> {
 
     List<Agency> findAll();
     
-    @Query("select a from Agency a where a.company.id = 1")
+    @Query("select a from Agency a where a.agencyCompany.id = ?1")
     List<Agency> findAllAgenciesForACompany(Integer id);
 }

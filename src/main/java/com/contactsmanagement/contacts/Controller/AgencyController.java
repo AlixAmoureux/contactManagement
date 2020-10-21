@@ -58,7 +58,7 @@ public class AgencyController {
     @PostMapping
     public Agency createAgency(@PathVariable("companyId") Integer companyId, @RequestBody Agency agency) {
         Company company = this.companyRepository.findById(companyId).get();
-        agency.setCompany(company);
+        agency.setAgencyCompany(company);
         return this.agencyRepository.save(agency);
     }
 

@@ -1,9 +1,9 @@
 package com.contactsmanagement.contacts.Controller;
 
-import com.contactsmanagement.contacts.Entity.Agency;
 import com.contactsmanagement.contacts.Entity.Company;
-import com.contactsmanagement.contacts.Repository.AgencyRepository;
+import com.contactsmanagement.contacts.Entity.HeadOffice;
 import com.contactsmanagement.contacts.Repository.CompanyRepository;
+import com.contactsmanagement.contacts.Repository.HeadOfficeRepository;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,19 +17,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "company/{companyId}/headOffice")
 public class HeadOfficeController {
-    private static final Logger logger = LoggerFactory.getLogger(ContactController.class);
 
     @Autowired
     private CompanyRepository companyRepository;
 
     @Autowired
-    private AgencyRepository agencyRepository;
+    private HeadOfficeRepository headOfficeRepository;
 
-/*    @PostMapping
-    public Agency setHeadOffice(@PathVariable("companyId") Integer companyId, @RequestBody Agency agency)
+     @PostMapping
+    public HeadOffice setHeadOffice(@PathVariable("companyId") Integer companyId, @RequestBody HeadOffice headOffice)
     {
         Company company = this.companyRepository.findById(companyId).get();
-        agency.setHeadOffice(company);
-        return this.agencyRepository.save(agency);
-    }*/
+        headOffice.setHeadOfficeCompany(company);
+        return this.headOfficeRepository.save(headOffice);
+    }
 }

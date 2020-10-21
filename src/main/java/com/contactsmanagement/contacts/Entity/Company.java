@@ -4,8 +4,10 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,7 +19,7 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
-@Table(name="COMPANY")
+@Table(name = "COMPANY")
 public class Company implements Serializable {
 
     /**
@@ -27,19 +29,19 @@ public class Company implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "ID")
     private Integer id;
 
     @Column(name = "name", nullable = false)
     private String name;
 
-/*     @OneToOne(mappedBy = "headOffice", targetEntity = Agency.class)
-    @JsonManagedReference
-    private Agency headOffice; */
-
-    @OneToMany(mappedBy = "company", targetEntity = Agency.class)
+    @OneToMany(mappedBy = "agencyCompany")
     @JsonManagedReference
     private List<Agency> agencies;
+
+    @OneToOne(mappedBy = "headOfficeCompany")
+    @JsonManagedReference
+    private HeadOffice headOffice;
 
     @Column(name = "tva", nullable = true)
     private String tva;
@@ -60,14 +62,6 @@ public class Company implements Serializable {
         this.name = name;
     }
 
-/*     public Agency getHeadOffice() {
-        return headOffice;
-    }
-
-    public void setHeadOffice(Agency headOffice) {
-        this.headOffice = headOffice;
-    } */
-
     public String getTva() {
         return tva;
     }
@@ -82,5 +76,13 @@ public class Company implements Serializable {
 
     public void setAgencies(List<Agency> agencies) {
         this.agencies = agencies;
+    }
+
+    public HeadOffice getHeadOffice() {
+        return headOffice;
+    }
+
+    public void setHeadOffice(HeadOffice headOffice) {
+        this.headOffice = headOffice;
     }
 }
