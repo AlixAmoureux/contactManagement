@@ -5,5 +5,6 @@ Small rest API with Spring Boot to manage contacts
 Java 15  
 Spring Boot  
 Hibernate  
-h2
+h2  
+Junit  
 

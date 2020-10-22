@@ -1,6 +1,5 @@
 package com.contactsmanagement.contacts.Controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.contactsmanagement.contacts.Entity.Company;
