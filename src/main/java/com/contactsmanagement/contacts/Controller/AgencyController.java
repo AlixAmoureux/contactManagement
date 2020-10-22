@@ -31,17 +31,6 @@ public class AgencyController {
     private CompanyRepository companyRepository;
 
     /**
-     * Get all agencies
-     * 
-     * @return : list of agencies found
-     */
-    @GetMapping("/all")
-    public List<Agency> getAllAgenciesForAllCompanies() {
-        logger.info("GET ALL AGENCIES FOR ALL COMPANIES");
-        return (this.agencyRepository.findAll());
-    }
-
-    /**
      * Get all agencies with a specific company id
      * 
      * @param id : id of the company
